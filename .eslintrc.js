@@ -24,6 +24,9 @@ module.exports = {
   },
   // add your custom rules here
   'rules': {
+    'no-unused-expressions': [1, {
+      allowTernary: true
+    }],
     'linebreak-style': ['off'],
     'comma-dangle': ['warn', {
       arrays: 'never',

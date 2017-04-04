@@ -3,7 +3,7 @@
     <nav class="nav">
       <div class="nav-left">
         <a class="nav-item title">
-          <i class="fa fa-rocket logo"></i><h1>Eve Pay</h1>
+          <i class="fa fa-rocket logo"></i><h1>Payouts</h1>
         </a>
       </div>
 
@@ -31,15 +31,12 @@
       <!-- This "nav-menu" is hidden on mobile -->
       <!-- Add the modifier "is-active" to display it on mobile -->
       <div class="nav-right nav-menu">
-        <router-link to="/payouts" class="nav-item" >
-          Payouts
-        </router-link>
-        <router-link to="/config" class="nav-item">
-          Config
-        </router-link>
-        <router-link to="/about" class="nav-item">
+        <a @click="toggle('roleOn')" class="nav-item">
+          Roles
+        </a>
+        <a @click="toggle('aboutOn')" class="nav-item">
           About
-        </router-link>
+        </a>
 
         <span class="nav-item">
           <a class="button" >
@@ -63,10 +60,10 @@
 <script>
 export default {
   name: 'Navbar',
-  data() {
-    return {
-      isActive: false
-    };
+  methods: {
+    toggle(id) {
+      this.$emit('toggle', id);
+    }
   }
 };
 </script>
