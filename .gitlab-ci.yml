@@ -1,0 +1,43 @@
+image: node:latest
+
+before_script:
+  - node -v
+  - npm -v
+  - npm install
+
+stages:
+  - test
+  - deploy
+
+lint:
+  stage: test
+  script:
+    - npm run lint
+  only:
+    - master
+
+unit:
+  stage: test
+  script:
+    - npm run unit
+  only:
+    - master
+
+e2e:
+  stage: test
+  script:
+    - npm run e2e
+  only:
+    - master
+
+
+
+pages:
+  stage: deploy
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist
+  only:
+    - master

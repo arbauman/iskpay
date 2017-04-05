@@ -1,5 +1,5 @@
 {
-  "name": "eve_pay",
+  "name": "payouts",
   "version": "1.0.0",
   "description": "A web app for calculating site payouts",
   "author": "Arbauman <arbauman207@gmail.com>",
@@ -15,9 +15,7 @@
   "dependencies": {
     "bulma": "^0.4.0",
     "font-awesome": "^4.7.0",
-    "vue": "^2.2.2",
-    "vue-router": "^2.3.1",
-    "vuex": "^2.2.1"
+    "vue": "^2.2.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
