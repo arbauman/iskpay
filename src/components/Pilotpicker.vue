@@ -1,13 +1,15 @@
 <template>
-  <div class="config">
-    <p>Config</p>
-    <h1>hello</h1>
+  <div class="pilotpicker">
+    <p>lez git eet awn!</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Config'
+  name: 'Pilotpicker',
+  methods: {
+
+  }
 };
 </script>
 

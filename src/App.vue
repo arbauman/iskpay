@@ -2,98 +2,34 @@
   <div id="app">
     <navbar v-on:toggle="toggle" ></navbar>
     <div class="container">
-      <!-- Role Settings -->
-      <div id="roleOn" class="modal is-active">
-        <div @click="toggle('roleOn')" class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Set Roles</p>
-            <button @click="toggle('roleOn')" class="delete"></button>
-          </header>
-          <section class="modal-card-body">
-            <div class="content">
-              <p>First, set the roles you would like to assign, along with their corresponding point values.</p>
-            </div>
-            <div v-for="(role, index) in roles">
-              <div class="field-body">
-                <p class="control">
-                <div class="columns">
-                  <button @click="remRole(index)" class="delete"></button>
-                  <input class="column input" v-model="role.name" type="text" placeholder="Role title">
+      <div class="tile is-ancestor">
+        <div class="tile is-vertical">
+          <div class="tile">
+            <div class="tile is-parent">
+              <article class="tile is-child">
+                <p class="title">Roles</p>
+                <div class="content">
+                  <rolepicker></rolepicker>
                 </div>
-                <div class="columns">
-                  <input class="column input" v-model="role.value" type="number" placeholder="Point Value">
+              </article>
+            </div>
+            <div class="tile is-parent">
+              <article class="tile is-child">
+                <p class="title">Pilots</p>
+                <div class="content">
+                  <pilotpicker></pilotpicker>
                 </div>
-                </p>
+              </article>
+            </div>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child notification">
+              <p class="title">Output</p>
+              <div class="content">
+                {{ outputText }}
               </div>
-            </div>
-            <button @click="addRole">Add Role</button>
-          </section>
-          <footer class="modal-card-foot">
-            <a @click="toggle('roleOn')" class="button is-success">Done</a>
-          </footer>
-        </div>
-      </div>
-      <!-- About -->
-      <div id="aboutOn" class="modal">
-        <div @click="toggle('aboutOn')" class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">About</p>
-            <button @click="toggle('aboutOn')" class="delete"></button>
-          </header>
-          <section class="modal-card-body">
-            <div class="content">
-              <ul>
-                <li>Go to the Config page to set up a list of roles and associate point values with them.</li>
-                <li>Return to the Payouts page and set the number of participants.</li>
-                <li>Enter names for each participant and assign at least one role to each.</li>
-                <li>Enter the total value of the site run in ISK, and press calculate.</li>
-                <li>A breakdown of each pilot's payout will be generated!</li>
-              </ul>
-            </div>
-          </section>
-        </div>
-      </div>
-      <!-- Total Payouts -->
-      <div id="totalOn" class="modal">
-        <div @click="toggle('totalOn')" class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Payouts </p>
-            <button @click="toggle('totalOn')" class="delete"></button>
-          </header>
-          <section class="modal-card-body">
-            <div v-for="line in outputText">
-              {{ line }}
-            </div>
-          </section>
-        </div>
-      </div>
-      <!-- Pilot Settings -->
-      <div class="content">
-        <p>Now, enter the pilots who took part in the mission.  The roles you specified will populate the tag cloud on the right; click them to assign.</p>
-      </div>
-      <div v-for="(pilot, pilotIndex) in pilots">
-        <div class="columns">
-          <div class="column">
-            <button @click="remPilot(pilotIndex)" class="delete"></button>
+            </article>
           </div>
-          <div class="column is-2">
-            <input class="input" v-model="pilot.name" type="text" placeholder="Pilot Name">
-          </div>
-          <div class="column is-10">
-              <div style="display:inline;" v-for="(role, roleIndex) in roles">
-                <a @click="toggleRole(pilot, pilotIndex, roleIndex, role)"  v-bind:id="pilot.name + role.name" class="tag">{{ role.name }}</a>
-              </div>
-          </div>
-        </div>
-      </div>
-      <button @click="addPilot">Add Pilot</button>
-      <div class="columns">
-        <div class="column">
-          <input class="input" v-model="totalISK" type="text" placeholder="Total ISK">
-          <button @click="calculate" class="button is-success">Calculate</button>
         </div>
       </div>
     </div>
@@ -102,23 +38,26 @@
 
 <script>
 import Navbar from './components/Navbar';
+import Rolepicker from './components/Rolepicker';
+import Pilotpicker from './components/Pilotpicker';
 
 export default {
   name: 'app',
   components: {
-    Navbar
+    Navbar,
+    Rolepicker,
+    Pilotpicker
   },
-  data() {
-    return {
-      roles: [{ name: '', value: '' }],
-      pilots: [{ name: '', roles: [], points: 0 }],
-      totalISK: '',
-      totalPoints: 0,
-      roleOn: true,
-      aboutOn: false,
-      totalOn: false,
-      outputText: []
-    };
+  computed: {
+    totalPoints() {
+      let total = 0;
+      this.$store.state.pilots.forEach((pilot) => {
+        pilot.roles.forEach((role) => {
+          total += role.effectivePoints;
+        });
+      });
+      return total;
+    }
   },
   methods: {
     toggle(id) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar container">
+  <div class="navbar">
     <nav class="nav">
       <div class="nav-left">
         <a class="nav-item title">
@@ -21,9 +21,6 @@
       <!-- This "nav-menu" is hidden on mobile -->
       <!-- Add the modifier "is-active" to display it on mobile -->
       <div class="nav-right nav-menu">
-        <a @click="toggle('roleOn')" class="nav-item">
-          Roles
-        </a>
         <a @click="toggle('aboutOn')" class="nav-item">
           About
         </a>

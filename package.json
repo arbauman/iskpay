@@ -15,7 +15,8 @@
   "dependencies": {
     "bulma": "^0.4.0",
     "font-awesome": "^4.7.0",
-    "vue": "^2.2.2"
+    "vue": "^2.2.2",
+    "vuex": "^2.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
