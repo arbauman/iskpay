@@ -2,7 +2,8 @@
   <div id="app">
     <navbar v-on:toggle="toggle" ></navbar>
     <div class="container">
-      <div id="roleOn" class="modal">
+      <!-- Role Settings -->
+      <div id="roleOn" class="modal is-active">
         <div @click="toggle('roleOn')" class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
@@ -10,26 +11,30 @@
             <button @click="toggle('roleOn')" class="delete"></button>
           </header>
           <section class="modal-card-body">
-            <div v-for="role in roles">
+            <div class="content">
+              <p>First, set the roles you would like to assign, along with their corresponding point values.</p>
+            </div>
+            <div v-for="(role, index) in roles">
               <div class="field-body">
                 <p class="control">
-                  <input class="input" v-model="role.name" type="text" placeholder="Role title">
-                  <input class="input" v-model="role.value" type="number" placeholder="Point Value">
+                <div class="columns">
+                  <button @click="remRole(index)" class="delete"></button>
+                  <input class="column input" v-model="role.name" type="text" placeholder="Role title">
+                </div>
+                <div class="columns">
+                  <input class="column input" v-model="role.value" type="number" placeholder="Point Value">
+                </div>
                 </p>
               </div>
-              
             </div>
-            <div v-if="roles.length > 1">
-              <button @click="remRole">-</button>  
-            </div>
-            <button @click="addRole">+</button>
+            <button @click="addRole">Add Role</button>
           </section>
           <footer class="modal-card-foot">
-            <a class="button is-success">Save changes</a>
-            <a class="button">Cancel</a>
+            <a @click="toggle('roleOn')" class="button is-success">Done</a>
           </footer>
         </div>
       </div>
+      <!-- About -->
       <div id="aboutOn" class="modal">
         <div @click="toggle('aboutOn')" class="modal-background"></div>
         <div class="modal-card">
@@ -50,9 +55,45 @@
           </section>
         </div>
       </div>
+      <!-- Total Payouts -->
+      <div id="totalOn" class="modal">
+        <div @click="toggle('totalOn')" class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Payouts </p>
+            <button @click="toggle('totalOn')" class="delete"></button>
+          </header>
+          <section class="modal-card-body">
+            <div v-for="line in outputText">
+              {{ line }}
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- Pilot Settings -->
+      <div class="content">
+        <p>Now, enter the pilots who took part in the mission.  The roles you specified will populate the tag cloud on the right; click them to assign.</p>
+      </div>
+      <div v-for="(pilot, pilotIndex) in pilots">
+        <div class="columns">
+          <div class="column">
+            <button @click="remPilot(pilotIndex)" class="delete"></button>
+          </div>
+          <div class="column is-2">
+            <input class="input" v-model="pilot.name" type="text" placeholder="Pilot Name">
+          </div>
+          <div class="column is-10">
+              <div style="display:inline;" v-for="(role, roleIndex) in roles">
+                <a @click="toggleRole(pilot, pilotIndex, roleIndex, role)"  v-bind:id="pilot.name + role.name" class="tag">{{ role.name }}</a>
+              </div>
+          </div>
+        </div>
+      </div>
+      <button @click="addPilot">Add Pilot</button>
       <div class="columns">
         <div class="column">
-          
+          <input class="input" v-model="totalISK" type="text" placeholder="Total ISK">
+          <button @click="calculate" class="button is-success">Calculate</button>
         </div>
       </div>
     </div>
@@ -69,11 +110,14 @@ export default {
   },
   data() {
     return {
-      roles: [{ name: 'DPS', value: '10' }],
-      pilots: [{ name: 'Conrad', roles: ['DPS'] }],
-      totalISK: 0,
-      roleOn: false,
-      aboutOn: false
+      roles: [{ name: '', value: '' }],
+      pilots: [{ name: '', roles: [], points: 0 }],
+      totalISK: '',
+      totalPoints: 0,
+      roleOn: true,
+      aboutOn: false,
+      totalOn: false,
+      outputText: []
     };
   },
   methods: {
@@ -85,11 +129,44 @@ export default {
     addRole() {
       this.roles.push({
         name: '',
-        value: 0
+        value: ''
       });
     },
-    remRole() {
-      this.roles.pop();
+    remRole(index) {
+      this.roles.splice(index, 1);
+    },
+    addPilot() {
+      this.pilots.push({
+        name: '',
+        roles: [],
+        points: 0
+      });
+    },
+    remPilot(index) {
+      this.pilots.splice(index, 1);
+    },
+    toggleRole(pilot, pilotIndex, roleIndex, role) {
+      const accIndex = this.pilots[pilotIndex].roles.indexOf(role.name);
+      if (accIndex === -1) {
+        document.getElementById(pilot.name + role.name).classList.add('is-success');
+        this.pilots[pilotIndex].roles.push(role.name);
+        this.pilots[pilotIndex].points += Number.parseFloat(role.value);
+        this.totalPoints += Number.parseFloat(role.value);
+      } else {
+        document.getElementById(pilot.name + role.name).classList.remove('is-success');
+        this.pilots[pilotIndex].roles.splice(accIndex, 1);
+        this.pilots[pilotIndex].points -= Number.parseFloat(role.value);
+        this.totalPoints -= Number.parseFloat(role.value);
+      }
+    },
+    calculate() {
+      this.outputText = [];
+      this.totalOn = !this.totalOn;
+      document.getElementById('totalOn').classList.add('is-active');
+      this.pilots.forEach((pilot) => {
+        const payout = this.totalISK * (pilot.points / this.totalPoints);
+        this.outputText.push(`${pilot.name}: ${payout.toFixed(2)}`);
+      });
     }
   }
 };

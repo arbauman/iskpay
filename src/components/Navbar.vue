@@ -8,16 +8,6 @@
       </div>
 
       <div class="nav-center">
-        <a class="nav-item">
-          <span class="icon">
-            <i class="fa fa-github"></i>
-          </span>
-        </a>
-        <a class="nav-item">
-          <span class="icon">
-            <i class="fa fa-twitter"></i>
-          </span>
-        </a>
       </div>
 
       <!-- This "nav-toggle" hamburger menu is only visible on mobile -->
@@ -38,20 +28,6 @@
           About
         </a>
 
-        <span class="nav-item">
-          <a class="button" >
-            <span class="icon">
-              <i class="fa fa-twitter"></i>
-            </span>
-            <span>Tweet</span>
-          </a>
-          <a class="button is-primary">
-            <span class="icon">
-              <i class="fa fa-download"></i>
-            </span>
-            <span>Download</span>
-          </a>
-        </span>
       </div>
     </nav>
   </div>
