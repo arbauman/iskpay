@@ -2,98 +2,69 @@
   <div id="app">
     <navbar v-on:toggle="toggle" ></navbar>
     <div class="container">
-      <!-- Role Settings -->
-      <div id="roleOn" class="modal is-active">
-        <div @click="toggle('roleOn')" class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Set Roles</p>
-            <button @click="toggle('roleOn')" class="delete"></button>
-          </header>
-          <section class="modal-card-body">
-            <div class="content">
-              <p>First, set the roles you would like to assign, along with their corresponding point values.</p>
-            </div>
-            <div v-for="(role, index) in roles">
-              <div class="field-body">
-                <p class="control">
-                <div class="columns">
-                  <button @click="remRole(index)" class="delete"></button>
-                  <input class="column input" v-model="role.name" type="text" placeholder="Role title">
+      <div class="tile is-ancestor">
+        <div class="tile is-vertical">
+          <div class="tile">
+            <div class="tile is-parent">
+              <article class="tile is-child">
+                <p class="title">Roles</p>
+                <div class="content">
+                  <rolepicker @removeRole="removeRole" @addRole="addRole" :roles="roles"></rolepicker>
                 </div>
-                <div class="columns">
-                  <input class="column input" v-model="role.value" type="number" placeholder="Point Value">
+              </article>
+            </div>
+            <div class="tile is-parent">
+              <article class="tile is-child">
+                <p class="title">Pilots</p>
+                <div class="content">
+                  <pilotpicker @toggleRole="toggleRole" @removePilot="removePilot" @addPilot="addPilot" :roles="roles" :pilots="pilots"></pilotpicker>
                 </div>
-                </p>
+              </article>
+            </div>
+          </div>
+          <div class="tile is-vertical">
+            <div class="tile is-parent">
+              <article class="tile is-child">
+              <div class="field">
+                <input class="input is-fullwidth" v-model="totalISK" type="text" placeholder="Total ISK">
               </div>
+              </article>
             </div>
-            <button @click="addRole">Add Role</button>
-          </section>
-          <footer class="modal-card-foot">
-            <a @click="toggle('roleOn')" class="button is-success">Done</a>
-          </footer>
-        </div>
-      </div>
-      <!-- About -->
-      <div id="aboutOn" class="modal">
-        <div @click="toggle('aboutOn')" class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">About</p>
-            <button @click="toggle('aboutOn')" class="delete"></button>
-          </header>
-          <section class="modal-card-body">
-            <div class="content">
-              <ul>
-                <li>Go to the Config page to set up a list of roles and associate point values with them.</li>
-                <li>Return to the Payouts page and set the number of participants.</li>
-                <li>Enter names for each participant and assign at least one role to each.</li>
-                <li>Enter the total value of the site run in ISK, and press calculate.</li>
-                <li>A breakdown of each pilot's payout will be generated!</li>
-              </ul>
+            <div class="tile is-parent">
+              <article class="tile is-child notification">
+                <p class="title">Paystub</p>
+                <table class="table is-striped">
+                  <thead>
+                    <tr>
+                      <th>Pilot</th>
+                      <th>Roles</th>
+                      <th>Points</th>
+                      <th>Percentage</th>
+                      <th>Payout</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Pilot</th>
+                      <th>Roles</th>
+                      <th>Points</th>
+                      <th>Percentage</th>
+                      <th>Payout</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <tr v-for="pilot in pilots">
+                      <td>{{ pilot.name }}</td>
+                      <td>{{ pilot.roles.join(', ') }}</td>
+                      <td>{{ pilot.points }}</td>
+                      <td>{{ ((pilot.points / totalPoints) * 100).toFixed(2) }}%</td>
+                      <td>{{ (totalISK * (pilot.points / totalPoints)).toFixed(2) }} ISK</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </article>
             </div>
-          </section>
-        </div>
-      </div>
-      <!-- Total Payouts -->
-      <div id="totalOn" class="modal">
-        <div @click="toggle('totalOn')" class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Payouts </p>
-            <button @click="toggle('totalOn')" class="delete"></button>
-          </header>
-          <section class="modal-card-body">
-            <div v-for="line in outputText">
-              {{ line }}
-            </div>
-          </section>
-        </div>
-      </div>
-      <!-- Pilot Settings -->
-      <div class="content">
-        <p>Now, enter the pilots who took part in the mission.  The roles you specified will populate the tag cloud on the right; click them to assign.</p>
-      </div>
-      <div v-for="(pilot, pilotIndex) in pilots">
-        <div class="columns">
-          <div class="column">
-            <button @click="remPilot(pilotIndex)" class="delete"></button>
           </div>
-          <div class="column is-2">
-            <input class="input" v-model="pilot.name" type="text" placeholder="Pilot Name">
-          </div>
-          <div class="column is-10">
-              <div style="display:inline;" v-for="(role, roleIndex) in roles">
-                <a @click="toggleRole(pilot, pilotIndex, roleIndex, role)"  v-bind:id="pilot.name + role.name" class="tag">{{ role.name }}</a>
-              </div>
-          </div>
-        </div>
-      </div>
-      <button @click="addPilot">Add Pilot</button>
-      <div class="columns">
-        <div class="column">
-          <input class="input" v-model="totalISK" type="text" placeholder="Total ISK">
-          <button @click="calculate" class="button is-success">Calculate</button>
         </div>
       </div>
     </div>
@@ -102,37 +73,57 @@
 
 <script>
 import Navbar from './components/Navbar';
+import Rolepicker from './components/Rolepicker';
+import Pilotpicker from './components/Pilotpicker';
 
 export default {
   name: 'app',
   components: {
-    Navbar
+    Navbar,
+    Rolepicker,
+    Pilotpicker
   },
   data() {
     return {
-      roles: [{ name: '', value: '' }],
+      weights: [1, 0.75, 0.50, 0.25, 0.05],
+      roles: [{ name: '', basePoints: 0 }],
       pilots: [{ name: '', roles: [], points: 0 }],
       totalISK: '',
-      totalPoints: 0,
       roleOn: true,
       aboutOn: false,
       totalOn: false,
       outputText: []
     };
   },
+  computed: {
+    totalPoints() {
+      let total = 0;
+      this.pilots.forEach((pilot) => {
+        total += pilot.points;
+      });
+      return total;
+    }
+  },
   methods: {
-    toggle(id) {
-      this[id] ? document.getElementById(id).classList.remove('is-active')
-      : document.getElementById(id).classList.add('is-active');
-      this[id] = !this[id];
-    },
-    addRole() {
-      this.roles.push({
-        name: '',
-        value: ''
+    addPoints() {
+      const vm = this;
+      this.pilots.forEach((pilot, pIndex) => {
+        vm.pilots[pIndex].roles.sort((a, b) =>
+          vm.roles.find(role => role.name === b).basePoints -
+          vm.roles.find(role => role.name === a).basePoints);
+        let points = 0;
+        vm.pilots[pIndex].roles.forEach((role, index) => {
+          points += vm.roles.find(item => item.name === role).basePoints * vm.weights[index]
+          || vm.roles.find(item => item.name === role).basePoints * vm.weights[4];
+        });
+        /* eslint-disable no-param-reassign */
+        pilot.points = points;
       });
     },
-    remRole(index) {
+    addRole() {
+      this.roles.push({ name: '', basePoints: 0 });
+    },
+    removeRole(index) {
       this.roles.splice(index, 1);
     },
     addPilot() {
@@ -142,31 +133,16 @@ export default {
         points: 0
       });
     },
-    remPilot(index) {
+    removePilot(index) {
       this.pilots.splice(index, 1);
     },
-    toggleRole(pilot, pilotIndex, roleIndex, role) {
-      const accIndex = this.pilots[pilotIndex].roles.indexOf(role.name);
-      if (accIndex === -1) {
-        document.getElementById(pilot.name + role.name).classList.add('is-success');
+    toggleRole(adding, pilot, pilotIndex, role, pilotRoleIndex) {
+      if (adding) {
         this.pilots[pilotIndex].roles.push(role.name);
-        this.pilots[pilotIndex].points += Number.parseFloat(role.value);
-        this.totalPoints += Number.parseFloat(role.value);
       } else {
-        document.getElementById(pilot.name + role.name).classList.remove('is-success');
-        this.pilots[pilotIndex].roles.splice(accIndex, 1);
-        this.pilots[pilotIndex].points -= Number.parseFloat(role.value);
-        this.totalPoints -= Number.parseFloat(role.value);
+        this.pilots[pilotIndex].roles.splice(pilotRoleIndex, 1);
       }
-    },
-    calculate() {
-      this.outputText = [];
-      this.totalOn = !this.totalOn;
-      document.getElementById('totalOn').classList.add('is-active');
-      this.pilots.forEach((pilot) => {
-        const payout = this.totalISK * (pilot.points / this.totalPoints);
-        this.outputText.push(`${pilot.name}: ${payout.toFixed(2)}`);
-      });
+      this.addPoints();
     }
   }
 };
