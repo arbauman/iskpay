@@ -29,6 +29,7 @@
                       <article class="tile is-child">
                       <div class="field">
                         <input class="input is-fullwidth" v-model="totalISK" type="text" placeholder="Total ISK">
+                        <a class="button is-info is-fullwidth" @click="addPoints">Update</a>
                       </div>
                       </article>
                     </div>
@@ -111,6 +112,7 @@ export default {
     Pilotpicker
   },
   mounted() {
+    this.$ga.trackPage('/');
     this.getSettings();
   },
   data() {
