@@ -35,10 +35,10 @@
             <div class="columns">
               <div class="column is-12">
                 <h1 class="title">Weights</h1>        
-                <a @click="setWeights([1, 1, 1, 1, 1])" class="button">Equal</a>
                 <a @click="setWeights([1, 0.3, 0.1, 0.01, 0.001])" class="button">Steep</a>
                 <a @click="setWeights([1, 0.75, 0.5, 0.25, 0.01])" class="button">Linear</a>
                 <a @click="setWeights([1, 0.85, 0.65, 0.50, 0.30])" class="button">Gentle</a>
+                <a @click="setWeights([1, 1, 1, 1, 1])" class="button">Equal</a>
               </div>
             </div>
             <div class="columns">
