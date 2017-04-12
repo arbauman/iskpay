@@ -110,6 +110,9 @@ export default {
     Rolepicker,
     Pilotpicker
   },
+  mounted() {
+    this.getSettings();
+  },
   data() {
     return {
       weights: [1, 0.75, 0.50, 0.25, 0.05],
@@ -141,8 +144,20 @@ export default {
   methods: {
     setWeights(array) {
       this.weights = array;
+      this.addPoints();
+    },
+    saveSettings() {
+      localStorage.setItem('weights', JSON.stringify(this.weights));
+      localStorage.setItem('corpCut', JSON.stringify(this.corpCut));
+      localStorage.setItem('roles', JSON.stringify(this.roles));
+    },
+    getSettings() {
+      this.weights = JSON.parse(localStorage.getItem('weights'));
+      this.corpCut = JSON.parse(localStorage.getItem('corpCut'));
+      this.roles = JSON.parse(localStorage.getItem('roles'));
     },
     addPoints() {
+      this.saveSettings();
       const vm = this;
       this.pilots.forEach((pilot, pIndex) => {
         vm.pilots[pIndex].roles.sort((a, b) =>
