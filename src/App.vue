@@ -154,9 +154,9 @@ export default {
       localStorage.setItem('roles', JSON.stringify(this.roles));
     },
     getSettings() {
-      this.weights = JSON.parse(localStorage.getItem('weights'));
-      this.corpCut = JSON.parse(localStorage.getItem('corpCut'));
-      this.roles = JSON.parse(localStorage.getItem('roles'));
+      this.weights = JSON.parse(localStorage.getItem('weights')) || [1, 1, 1, 1, 1];
+      this.corpCut = JSON.parse(localStorage.getItem('corpCut')) || [0];
+      this.roles = JSON.parse(localStorage.getItem('roles')) || [{ name: '', basePoints: 0 }];
     },
     addPoints() {
       this.saveSettings();
