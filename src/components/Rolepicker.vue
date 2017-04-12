@@ -6,7 +6,7 @@
     <div v-for="(role, index) in roles">
       <div class="columns">
         <div class="column">
-          <button @click="remRole(index)" class="delete"></button>
+          <button @click="removeRole(index)" class="delete"></button>
         </div>
         <div class="column is-6">
           <input class="input" v-model="roles[index].name" type="text" placeholder="Role">
@@ -17,9 +17,8 @@
       </div>
     </div>
     <div class="columns">
-      <div class="column is-9"></div>
-      <div class="column is-3">
-        <a class="button" @click="addRole">Add Role</a>
+      <div class="column">
+        <a class="button is-pulled-right" @click="addRole">Add Role</a>
       </div>
     </div>
     
@@ -30,19 +29,13 @@
 
 export default {
   name: 'Rolepicker',
+  props: ['roles'],
   methods: {
     addRole() {
-      this.$store.commit('addRole');
-    }
-  },
-  computed: {
-    roles: {
-      get() {
-        return this.$store.state.roles;
-      },
-      set(value) {
-        this.$store.commit('updateRoles', value);
-      }
+      this.$emit('addRole');
+    },
+    removeRole(index) {
+      this.$emit('removeRole', index);
     }
   }
 };
@@ -54,5 +47,6 @@ export default {
 button.delete {
   position: relative;
   top: 6px;
+  left: 15px;
 }
 </style>
