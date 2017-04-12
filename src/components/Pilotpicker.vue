@@ -38,13 +38,9 @@ export default {
       const pilotRoleIndex = this.pilots[pilotIndex].roles
       .findIndex(item => role.name === item);
       if (pilotRoleIndex === -1) {
-        /* eslint-disable no-console */
-        console.log('Not Found, Adding');
         document.getElementById(pilot.name + role.name).classList.add('is-success');
         this.$emit('toggleRole', true, pilot, pilotIndex, role, pilotRoleIndex);
       } else {
-        /* eslint-disable no-console */
-        console.log('Found, removing');
         document.getElementById(pilot.name + role.name).classList.remove('is-success');
         this.$emit('toggleRole', false, pilot, pilotIndex, role, pilotRoleIndex);
       }

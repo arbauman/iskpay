@@ -1,6 +1,6 @@
 {
   "name": "payouts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A web app for calculating site payouts",
   "author": "Arbauman <arbauman207@gmail.com>",
   "private": true,
@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "bulma": "^0.4.0",
-    "font-awesome": "^4.7.0",
     "vue": "^2.2.2"
   },
   "devDependencies": {
