@@ -28,6 +28,7 @@ module.exports = {
       allowTernary: true
     }],
     'linebreak-style': ['off'],
+    'no-param-reassign': ['off'],
     'comma-dangle': ['warn', {
       arrays: 'never',
       objects: 'never',

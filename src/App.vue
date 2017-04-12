@@ -25,17 +25,36 @@
                     </div>
                   </div>
                   <div class="tile is-vertical">
+                  <div class="tile">
+                    <div class="tile is-parent">
+                      <article class="tile is-child">
+                        <div class="field is-horizontal">
+                          <div class="field-label is-normal">
+                            <label class="label">Total ISK</label>
+                          </div>
+                          <div class="field-body">
+                            <div class="field is-grouped">
+                              <p class="control is-expanded">
+                                <input class="input" v-model.number="totalISK" type="number" placeholder="ISK">
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
                     <div class="tile is-parent">
                       <article class="tile is-child">
                       <div class="field">
-                        <input class="input is-fullwidth" v-model="totalISK" type="text" placeholder="Total ISK">
                         <a class="button is-info is-fullwidth" @click="addPoints">Update</a>
                       </div>
                       </article>
                     </div>
+                  </div>
+                    
                     <div class="tile is-parent">
                       <article class="tile is-child notification">
-                        <p class="title">Paystub</p>
+                        <p class="title">Paystub<!--<a class="button is-pulled-right">Copy</a>--></p>
+                        {{ localStorage }}
                         <table class="table is-striped">
                           <thead>
                             <tr>
@@ -63,7 +82,7 @@
                               <td>{{ (corpCut[0] * 100).toFixed(2) }}%</td>
                               <td>{{ (totalISK * corpCut).toFixed(2) }} ISK</td>
                             </tr>
-                            <tr v-for="pilot in pilots">
+                            <tr v-for="pilot in pilots" v-if="pilot.roles.length > 0">
                               <td>{{ pilot.name }}</td>
                               <td>{{ pilot.roles.join(', ') }}</td>
                               <td>{{ pilot.points }}</td>
@@ -121,11 +140,7 @@ export default {
       corpCut: [0],
       roles: [{ name: '', basePoints: 0 }],
       pilots: [{ name: '', roles: [], points: 0 }],
-      totalISK: '',
-      roleOn: true,
-      aboutOn: false,
-      totalOn: false,
-      outputText: []
+      totalISK: 0
     };
   },
   computed: {
@@ -152,11 +167,21 @@ export default {
       localStorage.setItem('weights', JSON.stringify(this.weights));
       localStorage.setItem('corpCut', JSON.stringify(this.corpCut));
       localStorage.setItem('roles', JSON.stringify(this.roles));
+      const pilotsClean = [];
+      this.pilots.forEach((pilot) => {
+        pilotsClean.push({
+          name: pilot.name,
+          roles: [],
+          points: 0
+        });
+      });
+      localStorage.setItem('pilots', JSON.stringify(pilotsClean));
     },
     getSettings() {
       this.weights = JSON.parse(localStorage.getItem('weights')) || [1, 1, 1, 1, 1];
       this.corpCut = JSON.parse(localStorage.getItem('corpCut')) || [0];
       this.roles = JSON.parse(localStorage.getItem('roles')) || [{ name: '', basePoints: 0 }];
+      this.pilots = JSON.parse(localStorage.getItem('pilots')) || [{ name: '', roles: [], points: 0 }];
     },
     addPoints() {
       this.saveSettings();
@@ -170,7 +195,6 @@ export default {
           points += vm.roles.find(item => item.name === role).basePoints * vm.weights[index]
           || vm.roles.find(item => item.name === role).basePoints * vm.weights[4];
         });
-        /* eslint-disable no-param-reassign */
         pilot.points = points;
       });
     },
