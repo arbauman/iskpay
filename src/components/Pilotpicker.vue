@@ -1,8 +1,5 @@
 <template>
   <div class="pilotpicker">
-    <div class="content">
-      <p>Now, enter the pilots who took part in the mission.  The roles you specified will populate the tag cloud on the right; click them to assign.</p>
-    </div>
     <div v-for="(pilot, pilotIndex) in pilots">
       <div class="columns">
         <div class="column">

@@ -1,8 +1,6 @@
 <template>
   <div class="rolepicker">
-    <div class="content">
-      <p>First, set the roles you would like to assign, along with their corresponding point values.</p>
-    </div>
+  
     <div v-for="(role, index) in roles">
       <div class="columns">
         <div class="column">
