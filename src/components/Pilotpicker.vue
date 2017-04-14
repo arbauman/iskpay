@@ -13,25 +13,34 @@
       </div>
     </div>
     <div v-for="(pilot, pilotIndex) in pilots">
-      <div class="field has-addons has-addons-centered">
-        <p class="control">
-          <a class="button" @click="remPilot(pilot.id)">
-            Remove
-          </a>
-        </p>
-        <p class="control is-expanded">
-          <input class="input" v-model="pilot.name" type="text" placeholder="Pilot Name">
-        </p>
-        <div v-for="(role, roleIndex) in roles" v-if="role.name !== ''">
-          <p class="control" >
-          <a @click="toggleRole(pilot, role)"  v-bind:id="pilot.id + role.id" class="button special-button">{{ role.name }}</a>
-        </p>
+      <div class="columns">
+        <div class="column">
+          <div class="field has-addons has-addons-centered">
+          <p class="control">
+            <a class="button is-outlined is-danger" @click="remPilot(pilot.id)">
+              Remove
+            </a>
+          </p>
+          <p class="control is-expanded">
+            <input class="input" v-model="pilot.name" type="text" placeholder="Pilot Name">
+          </p>
+        </div>
+        </div>
+        <div class="column">
+          <span v-for="(role, roleIndex) in roles" v-if="role.name !== ''">
+            <span v-if="pilot.roles.includes(role.id)">
+              <a @click="toggleRole(pilot, role)"  v-bind:id="pilot.id + role.id" class="tag is-dark">{{ role.name }}</a>
+            </span>
+            <span v-else>
+              <a @click="toggleRole(pilot, role)"  v-bind:id="pilot.id + role.id" class="tag">{{ role.name }}</a>
+            </span>
+          </span>
         </div>
       </div>
     </div>
     <div class="columns">
       <div class="column">
-        <a class="button is-pulled-right" @click="addPilot">Add Pilot</a>
+        <a class="button is-outlined is-info is-pulled-right" @click="addPilot">Add Pilot</a>
       </div>
     </div>
   </div>
@@ -63,5 +72,9 @@ button.delete {
   top: 6px;
   left: 15px;
 }
+.column {
+  padding-bottom: 0rem;
+}
+
 
 </style>

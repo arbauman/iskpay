@@ -28,10 +28,11 @@
       </div>
     </nav>
     <div id="configOn" class="modal">
-      <div @click="update"class="modal-background"></div>
+      <div @click="update" class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Config</p>
+          <button @click="update" class="delete"></button>
         </header>
         <section class="modal-card-body">
         <div class="content">
@@ -82,8 +83,8 @@
         </div>
         </section>
         <section class="modal-card-foot">
-          <a @click="reset" title="Resets weights, corp cut, roles, and pilots to default." class="button is-fullwidth"><span class="icon is-small"><i class="fa fa-info-circle"></i></span>Defaults</a>
-          <a @click="update" class="button is-fullwidth is-info">Update</a>
+          <a @click="reset" title="Resets weights, corp cut, roles, and pilots to default." class="button is-outlined is-fullwidth is-danger"><span class="icon is-small"><i class="fa fa-exclamation-circle"></i></span>Reset Defaults</a>
+          <a @click="update" class="button is-outlined is-info is-fullwidth">Close</a>
         </section>
       </div>
     </div>
@@ -98,22 +99,24 @@
           <div class="content is-small">
             <p>Wormhole anomalies are a challenging and lucrative type of dungeon in EVE Online.  The more difficulty anomalies require a well-coordinated fleet of pilots in a variety of roles.</p>
             <p>When I was in a wormhole corporation, the corp sold the loot from the sites and split the proceeds among those who participated.  The division was done manually, but in a process similar to what this app allows.</p>
+
             <h1>How to Use</h1>
             <p>Pronounced 'ISK Pay', this app is designed to automate the process of distributing payouts to a corporation.  The idea is to create a list of roles (Logistics, DPS, Scouts, Webs, Neuts, etc.) and assign point values to them.  These points mean nothing other than how they compare to each other; higher-value roles get more points than lower-value roles.  Then add all the pilots and assign the roles they performed.  Below in the Paystub, you'll see a table that will quickly tell you how much ISK each pilot will get.</p>
             <p>This app uses localStorage to save your Roles, Pilot names, Corp tax, and weights between reloads.  If you clear your cache, you'll have to redo all of it.</p>
+
             <h1>Advanced Features</h1>
             <p>In the Config menu, you can set your role weights.  These only apply if you have pilots with more than one role (as in alts).  If a pilot has more than one role, the most valuable role is multiplied by the modifier in the first weight slot, the second-most-valuable by the modifier in the second slot, and so on.  If you have more than 5 roles assigned to a pilot (over achiever much?), the modifier of the final slot will be used for all subsequent roles.  By default all slots are set to 100, so pilots will receive full points for all roles.</p>
             <p>Additionally, you may set a Corporation Tax modifier.  The set modifier will be taken off the top of the total ISK, and the rest of the ISK will be divided among the pilots as normal.</p>
+
             <h1>Disclaimers</h1>
             <p>No guarantees are made regarding complete accuracy of calculations.  This is not professional financial software, there may be wayward ISK-pennies floating around if you have some odd percentages.  Don't blame me if someone in your corp is skimming off the top.</p>
-            <p>Certain actions, like changing the value of a role when it's already been assigned to a pilot, don't automatically update the paystub.  You'll need to click the 'Update' button to refresh it.</p>
-            <p>Due to a quirk of Vue.js, if you assign a role to a pilot and then delete that role, the buttons will shift incorrectly.  This shouldn't cause breaking damage, but you may need to click the toggles a bit to fix them.  Remember the Defaults button in config, use it if anything really breaks.</p>
+
             <h1>Issues?</h1>
             <p>This app is build with Vue.js and the Bulma css framework.  Check the footer for links.  If you've found a bug, or have ideas/suggestions for improvement, submit an issue (in order of preference) on GitLab, GitHub, or PM it to me on Discord.  The GitHub is mirrored from GitLab, so please direct all pull requests to GitLab.  My Discord is DarkArcher#1520.</p>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <a @click="toggle('aboutOn')" class="button is-fullwidth">Done</a>
+          <a @click="toggle('aboutOn')" class="button is-outlined is-info is-fullwidth">Done</a>
         </footer>
       </div>
     </div>

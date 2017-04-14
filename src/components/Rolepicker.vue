@@ -15,7 +15,7 @@
     <div v-for="(role, index) in roles">
       <div class="field has-addons has-addons-centered">
         <p class="control">
-          <a class="button" @click="removeRole(role.id)">
+          <a class="button is-outlined is-danger" @click="removeRole(role.id)">
             Remove
           </a>
         </p>
@@ -29,7 +29,7 @@
     </div>
     <div class="columns">
       <div class="column">
-        <a class="button is-pulled-right" @click="addRole">Add Role</a>
+        <a class="button is-info is-outlined is-pulled-right" @click="addRole">Add Role</a>
       </div>
     </div>
   </div>

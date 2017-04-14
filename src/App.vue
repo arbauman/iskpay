@@ -28,6 +28,8 @@
                   <div class="tile">
                     <div class="tile is-parent">
                       <article class="tile is-child">
+                      </article>
+                      <article class="tile is-child">
                         <div class="field is-horizontal">
                           <div class="field-label is-normal">
                             <label class="label">Total ISK</label>
@@ -40,13 +42,6 @@
                             </div>
                           </div>
                         </div>
-                      </article>
-                    </div>
-                    <div class="tile is-parent">
-                      <article class="tile is-child">
-                      <div class="field">
-                        <a class="button is-info is-fullwidth" @click="addPoints">Update</a>
-                      </div>
                       </article>
                     </div>
                   </div>
@@ -88,6 +83,14 @@ export default {
     this.$ga.trackPage('/');
     this.getSettings();
   },
+  watch: {
+    roles: {
+      handler() {
+        this.updateThings();
+      },
+      deep: true
+    }
+  },
   data() {
     return {
       weights: [100, 100, 100, 100, 100],
@@ -128,6 +131,16 @@ export default {
     }
   },
   methods: {
+    updateThings() {
+      this.pilots.forEach((pilot) => {
+        pilot.roles.forEach((pilotRole) => {
+          if (this.roles.find(role => role.id === pilotRole) === undefined) {
+            pilot.roles = pilot.roles.filter(r => r !== pilotRole);
+          }
+        });
+      });
+      this.addPoints();
+    },
     reset() {
       this.weights = [100, 100, 100, 100, 100];
       this.corpCut = [0];
@@ -181,6 +194,7 @@ export default {
         id: shortid.generate(),
         basePoints: 0
       });
+      this.addPoints();
     },
     removeRole(id) {
       this.roles = this.roles.filter(role => role.id !== id);
@@ -195,16 +209,16 @@ export default {
         roles: [],
         points: 0
       });
+      this.addPoints();
     },
     removePilot(id) {
       this.pilots = this.pilots.filter(pilot => pilot.id !== id);
+      this.addPoints();
     },
     toggleRole(pilot, role) {
       if (pilot.roles.includes(role.id)) {
-        document.getElementById(pilot.id + role.id).classList.remove('is-success');
         pilot.roles = pilot.roles.filter(r => r !== role.id);
       } else {
-        document.getElementById(pilot.id + role.id).classList.add('is-success');
         pilot.roles.push(role.id);
       }
       this.addPoints();

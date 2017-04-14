@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <img src="http://i.imgur.com/hXpq52J.png" alt="ISK Pay" />
+  <img src="http://i.imgur.com/liV2bQC.png" alt="ISK Pay" />
 </p>
 
 A web app for calculating payouts for EVE Online sites/missions.
