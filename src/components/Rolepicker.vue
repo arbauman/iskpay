@@ -1,17 +1,30 @@
 <template>
   <div class="rolepicker">
-  
-    <div v-for="(role, index) in roles">
+    <div v-if="roles.length === 0">
       <div class="columns">
         <div class="column">
-          <button @click="removeRole(index)" class="delete"></button>
+          <article class="message is-warning">
+            <div class="message-body">
+              <span class="icon"><i class="fa fa-frown-o"></i></span>What is my purpose?
+              <p>Add some roles so my life can have meaning!</p>
+            </div>
+          </article>
         </div>
-        <div class="column is-6">
+      </div>
+    </div>
+    <div v-for="(role, index) in roles">
+      <div class="field has-addons has-addons-centered">
+        <p class="control">
+          <a class="button" @click="removeRole(role.id)">
+            Remove
+          </a>
+        </p>
+        <p class="control is-expanded">
           <input class="input" v-model="roles[index].name" type="text" placeholder="Role">
-        </div>
-        <div class="column is-5">
-          <input class="input" v-model.number="roles[index].basePoints" type="number" placeholder="Base Point Value">
-        </div>
+        </p>
+        <p class="control is-expanded">
+          <input class="input" v-model.number="roles[index].basePoints" type="number" min="0" step="1"placeholder="Base Point Value">
+        </p>
       </div>
     </div>
     <div class="columns">
@@ -19,7 +32,6 @@
         <a class="button is-pulled-right" @click="addRole">Add Role</a>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -32,8 +44,8 @@ export default {
     addRole() {
       this.$emit('addRole');
     },
-    removeRole(index) {
-      this.$emit('removeRole', index);
+    removeRole(id) {
+      this.$emit('removeRole', id);
     }
   }
 };

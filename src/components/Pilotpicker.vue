@@ -1,17 +1,31 @@
 <template>
   <div class="pilotpicker">
-    <div v-for="(pilot, pilotIndex) in pilots">
+    <div v-if="pilots.length === 0">
       <div class="columns">
         <div class="column">
-          <button @click="remPilot(pilotIndex)" class="delete"></button>
-        </div>
-        <div class="column is-4">
-          <input class="input" v-model="pilot.name" type="text" placeholder="Pilot Name">
-        </div>
-        <div class="column is-7">
-            <div style="display:inline;" v-for="(role, roleIndex) in roles">
-              <a @click="toggleRole(pilot, pilotIndex, role)"  v-bind:id="pilot.name + role.name" class="tag">{{ role.name }}</a>
+          <article class="message is-warning">
+            <div class="message-body">
+              <span class="icon"><i class="fa fa-meh-o"></i></span>Who am I?
+              <p>This app isn't very useful if you don't have any pilots.</p>
             </div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <div v-for="(pilot, pilotIndex) in pilots">
+      <div class="field has-addons has-addons-centered">
+        <p class="control">
+          <a class="button" @click="remPilot(pilot.id)">
+            Remove
+          </a>
+        </p>
+        <p class="control is-expanded">
+          <input class="input" v-model="pilot.name" type="text" placeholder="Pilot Name">
+        </p>
+        <div v-for="(role, roleIndex) in roles" v-if="role.name !== ''">
+          <p class="control" >
+          <a @click="toggleRole(pilot, role)"  v-bind:id="pilot.id + role.id" class="button special-button">{{ role.name }}</a>
+        </p>
         </div>
       </div>
     </div>
@@ -28,22 +42,14 @@ export default {
   name: 'Pilotpicker',
   props: ['pilots', 'roles'],
   methods: {
-    remPilot(index) {
-      this.$emit('removePilot', index);
+    remPilot(id) {
+      this.$emit('removePilot', id);
     },
     addPilot() {
       this.$emit('addPilot');
     },
-    toggleRole(pilot, pilotIndex, role) {
-      const pilotRoleIndex = this.pilots[pilotIndex].roles
-      .findIndex(item => role.name === item);
-      if (pilotRoleIndex === -1) {
-        document.getElementById(pilot.name + role.name).classList.add('is-success');
-        this.$emit('toggleRole', true, pilot, pilotIndex, role, pilotRoleIndex);
-      } else {
-        document.getElementById(pilot.name + role.name).classList.remove('is-success');
-        this.$emit('toggleRole', false, pilot, pilotIndex, role, pilotRoleIndex);
-      }
+    toggleRole(pilot, role) {
+      this.$emit('toggleRole', pilot, role);
     }
   }
 };
