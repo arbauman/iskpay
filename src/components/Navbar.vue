@@ -105,8 +105,8 @@
             <p>This app uses localStorage to save your Roles, Pilot names, Corp tax, and weights between reloads.  If you clear your cache, you'll have to redo all of it.</p>
 
             <h1>Advanced Features</h1>
-            <p>In the Config menu, you can set your role weights.  These only apply if you have pilots with more than one role (as in alts).  If a pilot has more than one role, the most valuable role is multiplied by the modifier in the first weight slot, the second-most-valuable by the modifier in the second slot, and so on.  If you have more than 5 roles assigned to a pilot (over achiever much?), the modifier of the final slot will be used for all subsequent roles.  By default all slots are set to 100, so pilots will receive full points for all roles.</p>
-            <p>Additionally, you may set a Corporation Tax modifier.  The set modifier will be taken off the top of the total ISK, and the rest of the ISK will be divided among the pilots as normal.</p>
+            <p>In the Config menu, you can set your role weights.  These are percentages out of 100, and only apply if you have pilots with more than one role (as in alts).  If a pilot has more than one role, the most valuable role is multiplied by the modifier in the first weight slot, the second-most-valuable by the modifier in the second slot, and so on.  If you have more than 5 roles assigned to a pilot (over achiever much?), the modifier of the final slot will be used for all subsequent roles.  By default all slots are set to 100, so pilots will receive full points for all roles.</p>
+            <p>Additionally, you may set a Corporation Tax modifier.  The set percentage of the total ISK will be reserved for the corporation, and the rest of the ISK will be divided among the pilots as normal.</p>
 
             <h1>Disclaimers</h1>
             <p>No guarantees are made regarding complete accuracy of calculations.  This is not professional financial software, there may be wayward ISK-pennies floating around if you have some odd percentages.  Don't blame me if someone in your corp is skimming off the top.</p>
@@ -131,8 +131,8 @@ export default {
     return {
       aboutOn: false,
       configOn: false,
-      weightsInfo: "Weights let you set diminishing returns for pilots with multiple roles.  The role with the most points will be multiplied by the number in the first slot, and so on.  Set to 'Steep', roles beyond the first will quickly decrease in value.  This is useful to prevent veteran players with many alts from taking all of the money away from newbies.  If set to 'Flat', all roles will be counted as their full point value.",
-      corpInfo: "This allows you to set a certain percentage of 'corporation tax' for the mission, which will be calculated and removed from the pot before the pilots split it.  Set to 0 to disable."
+      weightsInfo: 'Example: Pilot A has 6 roles.  Each is worth 10 points.  The roles are in order of point value, from highest to lowest.\n[Flat]  ((role1 * 1) + (role2 * 1) + (role3 * 1) + (role4 * 1) + (role5 * 1) + (role6 * 1)) = 60 points\n[Gradual] ((role1 * 1) + (role2 * 0.95) + (role3 * 0.85) + (role4 * 0.60) + (role5 * 0.45) + (role6 * 0.45)) = 43 points\n[Linear] ((role1 * 1) + (role2 * 0.75) + (role3 * 0.50) + (role4 * 0.25) + (role5 * 0.01) + (role6 * 0.01)) = 25.2 points\n[Steep] ((role1 * 1) + (role2 * 0.30) + (role3 * 0.10) + (role4 * 0.02) + (role5 * 0.01) + (role6 * 0.01)) = 14.4 points',
+      corpInfo: 'This percentage of the total ISK is reserved automatically by the Corporation.\nThe remaining ISK is divided amongst the pilots as usual.  Set to 0 to disable.'
     };
   },
   methods: {
