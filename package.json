@@ -1,6 +1,6 @@
 {
   "name": "iskpay",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A web app for calculating site payouts",
   "author": "Arbauman <arbauman207@gmail.com>",
   "private": true,

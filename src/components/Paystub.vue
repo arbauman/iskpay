@@ -27,8 +27,12 @@
           <td>{{ getCorpPercent() }}</td>
           <td><div class="is-pulled-right">{{ corpISK }} ISK</div></td>
         </tr>
-        <tr v-if="adjustedCorpCut <= 0 && pilots.length === 0" >
-          <td>No data...make some pilots and give them jobs!</td>
+        <tr title="...You feel it too, don't you?" v-if="adjustedCorpCut <= 0 && pilots.length === 0" >
+          <td>No data</td>
+          <td>No data</td>
+          <td>No data</td>
+          <td>No data</td>
+          <td><div class="is-pulled-right">No data</div></td>
         </tr>
         <tr v-for="pilot in pilots" v-if="pilots.length > 0">
           <td>{{ getPilotName(pilot) }}</td>

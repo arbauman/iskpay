@@ -53,7 +53,7 @@
             <div class="column" v-for="(weight, index) in weights">
               <div class="field has-addons">
                 <p class="control has-icon has-icon-right">
-                  <input class="input" v-model.number="weights[index]" type="number" placeholder="Weight">
+                  <input class="input" v-model.number="weights[index]" min="-100" max="100" type="number" placeholder="Weight">
                   <span class="icon is-small">
                     <i class="fa">%</i>
                   </span>

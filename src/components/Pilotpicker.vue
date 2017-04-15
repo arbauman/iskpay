@@ -4,9 +4,8 @@
       <div class="columns">
         <div class="column">
           <article class="message is-warning">
-            <div class="message-body">
-              <span class="icon"><i class="fa fa-meh-o"></i></span>Who am I?
-              <p>This app isn't very useful if you don't have any pilots.</p>
+            <div title="Just to suffer?"class="message-body">
+              <span class="icon"><i class="fa fa-meh-o"></i></span>No pilots
             </div>
           </article>
         </div>
@@ -14,7 +13,7 @@
     </div>
     <div v-for="(pilot, pilotIndex) in pilots">
       <div class="columns">
-        <div class="column">
+        <div id="pilot" class="column">
           <div class="field has-addons has-addons-centered">
           <p class="control">
             <a class="button is-outlined is-danger" @click="remPilot(pilot.id)">
@@ -72,7 +71,7 @@ button.delete {
   top: 6px;
   left: 15px;
 }
-.column {
+.column#pilot {
   padding-bottom: 0rem;
 }
 

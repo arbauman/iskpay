@@ -4,9 +4,8 @@
       <div class="columns">
         <div class="column">
           <article class="message is-warning">
-            <div class="message-body">
-              <span class="icon"><i class="fa fa-frown-o"></i></span>What is my purpose?
-              <p>Add some roles so my life can have meaning!</p>
+            <div title="Why are we still here?" class="message-body">
+              <span class="icon"><i class="fa fa-frown-o"></i></span>No roles
             </div>
           </article>
         </div>
