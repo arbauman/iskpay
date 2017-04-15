@@ -1,62 +1,53 @@
 <template>
   <div id="app">
+    <navbar @reset="reset" @setWeights="setWeights" @update="addPoints" :weights="weights" :corpCut="corpCut" ></navbar>
     <div class="flexframe">
-        <navbar @reset="reset" @setWeights="setWeights" @update="addPoints" :weights="weights" :corpCut="corpCut" ></navbar>
-        <div class="section flexcontent">
+      
+      <div class="section flexcontent">
           <div class="container">
-            <div class="tile is-ancestor">
-              <div class="tile is-vertical">
-                <div class="tile">
-                  <div class="tile is-parent">
-                    <article class="tile is-child">
-                      <p class="title">Roles</p>
-                      <div class="content">
-                        <rolepicker @removeRole="removeRole" @addRole="addRole" :roles="roles"></rolepicker>
-                      </div>
-                    </article>
+            <div class="columns is-multiline">
+              <div class="column">
+                <article class="tile is-child">
+                  <p class="title">Roles</p>
+                  <div class="content">
+                    <rolepicker @removeRole="removeRole" @addRole="addRole" :roles="roles"></rolepicker>
                   </div>
-                  <div class="tile is-parent">
-                    <article class="tile is-child">
-                      <p class="title">Pilots</p>
-                      <div class="content">
-                        <pilotpicker @toggleRole="toggleRole" @removePilot="removePilot" @addPilot="addPilot" :roles="roles" :pilots="pilots"></pilotpicker>
-                      </div>
-                    </article>
+                </article>
+              </div>
+              <div class="column">
+                <article class="tile is-child">
+                  <p class="title">Pilots</p>
+                  <div class="content">
+                    <pilotpicker @toggleRole="toggleRole" @removePilot="removePilot" @addPilot="addPilot" :roles="roles" :pilots="pilots"></pilotpicker>
                   </div>
-                </div>
-                <div class="tile is-vertical">
-                  <div class="tile">
-                    <div class="tile is-parent">
-                      <article class="tile is-child">
-                      </article>
-                      <article class="tile is-child">
-                        <div class="field is-horizontal">
-                          <div class="field-label is-normal">
-                            <label class="label">Total ISK</label>
-                          </div>
-                          <div class="field-body">
-                            <div class="field is-grouped">
-                              <p class="control is-expanded">
-                                <input class="input" v-model.number="totalISK" type="number" min="0" step="1000"placeholder="ISK">
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </article>
+                </article>
+              </div>
+            </div>
+            <div class="columns is-multiline">
+              <div class="column is-offset-6 is-6">
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label class="label">Total ISK</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field is-grouped">
+                      <p class="control is-expanded">
+                        <input class="input" v-model.number="totalISK" type="number" min="0" step="1000"placeholder="ISK">
+                      </p>
                     </div>
-                  </div>
-                  <div class="tile is-parent">
-                    <article class="tile is-child notification">
-                      <p class="title">Paystub<!--<a class="button is-pulled-right">Copy</a>--></p>
-                      <paystub :roles="roles" :adjustedCorpCut="adjustedCorpCut" :pilots="pilots" :adjustedPoints="adjustedPoints" :corpISK="corpISK" :remainingISK="remainingISK" :totalPoints="totalPoints"></paystub>
-                    </article>
                   </div>
                 </div>
               </div>
+              <div class="column is-12">
+                <article class="tile is-child notification">
+                  <p class="title">Paystub<!--<a class="button is-pulled-right">Copy</a>--></p>
+                  <paystub :roles="roles" :adjustedCorpCut="adjustedCorpCut" :pilots="pilots" :adjustedPoints="adjustedPoints" :corpISK="corpISK" :remainingISK="remainingISK" :totalPoints="totalPoints"></paystub>
+                </article>
+              </div>
             </div>
           </div>
-        </div>
-        <foot></foot>
+      </div>
+      <foot></foot>
     </div>
   </div>
 </template>

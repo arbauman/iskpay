@@ -14,7 +14,7 @@
     <div v-for="(pilot, pilotIndex) in pilots">
       <div class="columns">
         <div id="pilot" class="column">
-          <div class="field has-addons has-addons-centered">
+          <div class="field has-addons">
           <p class="control">
             <a class="button is-outlined is-danger" @click="remPilot(pilot.id)">
               Remove

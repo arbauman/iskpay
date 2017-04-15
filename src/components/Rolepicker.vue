@@ -12,7 +12,7 @@
       </div>
     </div>
     <div v-for="(role, index) in roles">
-      <div class="field has-addons has-addons-centered">
+      <div class="field has-addons">
         <p class="control">
           <a class="button is-outlined is-danger" @click="removeRole(role.id)">
             Remove
@@ -21,7 +21,7 @@
         <p class="control is-expanded">
           <input class="input" v-model="roles[index].name" type="text" placeholder="Role">
         </p>
-        <p class="control is-expanded">
+        <p class="control">
           <input class="input" v-model.number="roles[index].basePoints" type="number" min="0" step="1"placeholder="Base Point Value">
         </p>
       </div>
