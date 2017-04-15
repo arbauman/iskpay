@@ -12,7 +12,7 @@
       </div>
     </div>
     <div v-for="(pilot, pilotIndex) in pilots">
-      <div class="columns">
+      <div class="columns is-mobile">
         <div id="pilot" class="column">
           <div class="field has-addons">
           <p class="control">
@@ -20,12 +20,12 @@
               Remove
             </a>
           </p>
-          <p class="control is-expanded">
+          <p class="control">
             <input class="input" v-model="pilot.name" type="text" placeholder="Pilot Name">
           </p>
         </div>
         </div>
-        <div class="column">
+        <div id="tag" class="column">
           <span v-for="(role, roleIndex) in roles" v-if="role.name !== ''">
             <span v-if="pilot.roles.includes(role.id)">
               <a @click="toggleRole(pilot, role)"  v-bind:id="pilot.id + role.id" class="tag is-dark">{{ role.name }}</a>
@@ -74,6 +74,5 @@ button.delete {
 .column#pilot {
   padding-bottom: 0rem;
 }
-
 
 </style>
