@@ -86,8 +86,8 @@ export default {
     return {
       weights: [100, 100, 100, 100, 100],
       corpCut: [0],
-      roles: [{ name: '', basePoints: 0 }],
-      pilots: [{ name: '', roles: [], points: 0 }],
+      roles: [],
+      pilots: [],
       totalISK: 0
     };
   },
@@ -161,8 +161,8 @@ export default {
     getSettings() {
       this.weights = JSON.parse(localStorage.getItem('weights')) || [100, 100, 100, 100, 100];
       this.corpCut = JSON.parse(localStorage.getItem('corpCut')) || [0];
-      this.roles = JSON.parse(localStorage.getItem('roles')) || [{ name: '', basePoints: 0 }];
-      this.pilots = JSON.parse(localStorage.getItem('pilots')) || [{ name: '', roles: [], points: 0 }];
+      this.roles = JSON.parse(localStorage.getItem('roles')) || [];
+      this.pilots = JSON.parse(localStorage.getItem('pilots')) || [];
     },
     addPoints() {
       this.saveSettings();
