@@ -59,6 +59,7 @@ import Rolepicker from './components/Rolepicker';
 import Pilotpicker from './components/Pilotpicker';
 import Paystub from './components/Paystub';
 import Foot from './components/Foot';
+import { version } from '../package.json';
 
 export default {
   name: 'app',
@@ -72,6 +73,7 @@ export default {
   mounted() {
     this.$ga.trackPage('/');
     this.getSettings();
+    // If version is newer than clientversion, show new features modal
   },
   watch: {
     roles: {
@@ -83,6 +85,8 @@ export default {
   },
   data() {
     return {
+      version,
+      clientVersion: '',
       weights: [100, 100, 100, 100, 100],
       corpCut: [0],
       roles: [],
@@ -145,6 +149,7 @@ export default {
     saveSettings() {
       localStorage.setItem('weights', JSON.stringify(this.weights));
       localStorage.setItem('corpCut', JSON.stringify(this.corpCut));
+      localStorage.setItem('version', JSON.stringify(this.version));
       localStorage.setItem('roles', JSON.stringify(this.roles));
       const pilotsClean = [];
       this.pilots.forEach((pilot) => {
@@ -161,6 +166,7 @@ export default {
     getSettings() {
       this.weights = JSON.parse(localStorage.getItem('weights')) || [100, 100, 100, 100, 100];
       this.corpCut = JSON.parse(localStorage.getItem('corpCut')) || [0];
+      this.clientVersion = JSON.parse(localStorage.getItem('version')) || '';
       this.roles = JSON.parse(localStorage.getItem('roles')) || [];
       this.pilots = JSON.parse(localStorage.getItem('pilots')) || [];
     },
