@@ -2,11 +2,10 @@
   <div id="app">
     <navbar @reset="reset" @setWeights="setWeights" @update="addPoints" :weights="weights" :corpCut="corpCut" ></navbar>
     <div class="flexframe">
-      
       <div class="section flexcontent">
           <div class="container">
             <div class="columns is-multiline">
-              <div class="column">
+              <div class="column is-6-widescreen is-12-tablet">
                 <article class="tile is-child">
                   <p class="title">Roles</p>
                   <div class="content">
@@ -14,11 +13,11 @@
                   </div>
                 </article>
               </div>
-              <div class="column">
+              <div class="column is-6-widescreen is-12-tablet">
                 <article class="tile is-child">
                   <p class="title">Pilots</p>
                   <div class="content">
-                    <pilotpicker @toggleRole="toggleRole" @removePilot="removePilot" @addPilot="addPilot" :roles="roles" :pilots="pilots"></pilotpicker>
+                    <pilotpicker @update="updateThings" @toggleRole="toggleRole" @removePilot="removePilot" @addPilot="addPilot" :roles="roles" :pilots="pilots"></pilotpicker>
                   </div>
                 </article>
               </div>
@@ -32,7 +31,7 @@
                   <div class="field-body">
                     <div class="field is-grouped">
                       <p class="control is-expanded">
-                        <input class="input" v-model.number="totalISK" type="number" min="0" step="1000"placeholder="ISK">
+                        <input class="input" v-model.number="totalISK" title="Type in the total amount of ISK made during the mission" type="number" min="0" step="1000"placeholder="ISK">
                       </p>
                     </div>
                   </div>
@@ -152,6 +151,7 @@ export default {
         pilotsClean.push({
           name: pilot.name,
           id: pilot.id,
+          participation: 100,
           roles: [],
           points: 0
         });
@@ -171,12 +171,12 @@ export default {
         pilot.roles.sort((a, b) =>
           vm.roles.find(role => role.id === b).basePoints -
           vm.roles.find(role => role.id === a).basePoints);
-        let points = 0;
+        let points = 0.0;
         pilot.roles.forEach((role, index) => {
           points += vm.roles.find(item => item.id === role).basePoints * vm.adjustedWeights[index]
           || vm.roles.find(item => item.id === role).basePoints * vm.adjustedWeights[4];
         });
-        pilot.points = points;
+        pilot.points = points * ((pilot.participation / 100));
       });
     },
     addRole() {
@@ -197,6 +197,7 @@ export default {
       this.pilots.push({
         name: '',
         id: shortid.generate(),
+        participation: 100,
         roles: [],
         points: 0
       });
