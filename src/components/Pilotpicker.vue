@@ -98,5 +98,9 @@ button.delete {
 .column#pilot {
   padding-bottom: 0rem;
 }
+.select select {
+  padding-right: 0em;
+  padding: .5em 2.5em .5em .625em;
+}
 
 </style>
